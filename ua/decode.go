@@ -36,6 +36,8 @@ func Decode(b []byte, v interface{}) (int, error) {
 }
 
 func decode(b []byte, val reflect.Value, name string) (n int, err error) {
+	// fmt.Printf("bytes %v\n", b)
+	// fmt.Printf("decode: %s has type %v and is a %s, %d bytes\n", name, val.Type(), val.Type().Kind(), len(b))
 	if debugCodec {
 		fmt.Printf("decode: %s has type %v and is a %s, %d bytes\n", name, val.Type(), val.Type().Kind(), len(b))
 		defer func() {
@@ -51,7 +53,7 @@ func decode(b []byte, val reflect.Value, name string) (n int, err error) {
 	case isTime(val):
 		val.Set(reflect.ValueOf(buf.ReadTime()))
 	default:
-		// fmt.Printf("decode: %s is a %s\n", name, val.Kind())
+		// fmt.Printf("decode: %s is a %s , val - %v\n", name, val.Kind(), val)
 		switch val.Kind() {
 		case reflect.Bool:
 			val.SetBool(buf.ReadBool())
@@ -80,6 +82,7 @@ func decode(b []byte, val reflect.Value, name string) (n int, err error) {
 		case reflect.Slice:
 			return decodeSlice(b, val, name)
 		case reflect.Ptr:
+			// fmt.Println(" ====val.Elem()", val.Elem())
 			return decode(b, val.Elem(), name)
 		case reflect.Struct:
 			return decodeStruct(b, val, name)
@@ -126,6 +129,7 @@ func decodeSlice(b []byte, val reflect.Value, name string) (int, error) {
 	}
 
 	if n > math.MaxInt32 {
+		// fmt.Println("================Got error in decodeSlice, ", n, b)
 		return buf.Pos(), errors.Errorf("array too large: %d", n)
 	}
 

@@ -178,6 +178,26 @@ func (b *Buffer) ReadStruct(r interface{}) {
 	b.pos += n
 }
 
+func (b *Buffer) ReadStruct2(r interface{}) (int, error) {
+	if b.err != nil {
+		return b.pos, b.err
+	}
+	var n int
+	var err error
+	switch x := r.(type) {
+	case BinaryDecoder:
+		n, err = x.Decode(b.buf[b.pos:])
+	default:
+		n, err = Decode(b.buf[b.pos:], r)
+	}
+	if err != nil {
+		b.err = err
+		return b.pos, b.err
+	}
+	b.pos += n
+	return b.pos, b.err
+}
+
 func (b *Buffer) ReadTime() time.Time {
 	d := b.ReadN(8)
 	if b.err != nil {

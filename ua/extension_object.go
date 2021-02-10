@@ -58,8 +58,12 @@ func (e *ExtensionObject) Decode(b []byte) (int, error) {
 	}
 
 	length := buf.ReadUint32()
+	lengthOld := length
+	bufPosOld := buf.Pos()
 	if length == 0 || length == 0xffffffff || buf.Error() != nil {
-		return buf.Pos(), buf.Error()
+		// // return buf.Pos(), buf.Error()
+		// // length = uint32(38)
+		length = uint32(len(buf.buf) - buf.Pos())
 	}
 
 	body := NewBuffer(buf.ReadN(int(length)))
@@ -78,8 +82,13 @@ func (e *ExtensionObject) Decode(b []byte) (int, error) {
 	if e.Value == nil {
 		return buf.Pos(), errors.Errorf("invalid extension object with id %s", typeID)
 	}
-
-	body.ReadStruct(e.Value)
+	if lengthOld == 0 || lengthOld == 0xffffffff {
+		n, err := body.ReadStruct2(e.Value)
+		buf.pos = bufPosOld + n
+		body.err = err
+	} else {
+		body.ReadStruct(e.Value)
+	}
 	return buf.Pos(), body.Error()
 }
 
