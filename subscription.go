@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gopcua/opcua/debug"
-	"github.com/gopcua/opcua/errors"
-	"github.com/gopcua/opcua/id"
-	"github.com/gopcua/opcua/ua"
-	"github.com/gopcua/opcua/uasc"
+	"github.com/arvindh123/opcua/debug"
+	"github.com/arvindh123/opcua/errors"
+	"github.com/arvindh123/opcua/id"
+	"github.com/arvindh123/opcua/ua"
+	"github.com/arvindh123/opcua/uasc"
 )
 
 const (

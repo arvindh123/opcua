@@ -9,7 +9,7 @@ import (
 	_ "crypto/sha1"
 	_ "crypto/sha256"
 
-	"github.com/gopcua/opcua/ua"
+	"github.com/arvindh123/opcua/ua"
 )
 
 const PKCS1v15MinPadding = 11

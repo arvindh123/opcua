@@ -4,7 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 
-	"github.com/gopcua/opcua/errors"
+	"github.com/arvindh123/opcua/errors"
 )
 
 const (

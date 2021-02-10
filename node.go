@@ -7,8 +7,8 @@ package opcua
 import (
 	"strings"
 
-	"github.com/gopcua/opcua/id"
-	"github.com/gopcua/opcua/ua"
+	"github.com/arvindh123/opcua/id"
+	"github.com/arvindh123/opcua/ua"
 )
 
 // Node is a high-level object to interact with a node in the
